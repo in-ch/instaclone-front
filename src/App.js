@@ -3,15 +3,19 @@ import { BrowserRouter as Router,Switch, Route, Redirect } from "react-router-do
 import Home from './screens/Home';
 import Login from './screens/Login';
 import NotFound from './screens/404';
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+import { useReactiveVar } from "@apollo/client";
+import { isLoggedInVar } from "./apollo";
 
+function App() {
+ 
+  const isLoggedIn = useReactiveVar(isLoggedInVar)
+  
   return (
     <div>
       <Router>
         <Switch>
           <Route path="/" exact>
-            {isLoggedIn ? <Home setIsLoggedIn={setIsLoggedIn} />: <Login setIsLoggedIn={setIsLoggedIn} />}
+            {isLoggedIn ? <Home />: <Login />}
           </Route>
           <Route path="/inch" exact>
             {!isLoggedIn ? "로그인해주세요." : "로그인 되어 있네요."}
