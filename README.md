@@ -4,4 +4,6 @@
     그리고 <Route>태그에 "exact"옵션을 넣어줘야함 => Hashrouter 
     BrowserRouter를 쓰려면 deploy할 때 몇 가지 고려 사항을 더 고려해야함.
 
-#8. ThemeProvider를 설치하면 dark mode를 적용할 수 있다.
+#8.8 ThemeProvider를 설치하면 dark mode를 적용할 수 있다.
+
+#8.9 styled-reset으로 모든 css 초기값을 0으로 만들 수 있다.
