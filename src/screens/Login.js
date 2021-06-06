@@ -69,6 +69,10 @@ const BottomBox = styled(WhiteBox)`
         font-weight: 600;
         color: #0095f6;
         }
+        input{
+            margin: 5px 0px 0px 10px ;background:white;border:1px solid RGB(200,200,200);
+            width:80px;height:30px;border-radius:10px;
+        }
 `;
 
 const Separator = styled.div`
@@ -99,8 +103,7 @@ const FacebookLogin = styled.div`
 `;
 
 const Login = () => {
-    
-    return (
+    return (    
         <>
             <Container>
                 <Wrapper>
@@ -124,7 +127,9 @@ const Login = () => {
                         </FacebookLogin>
                     </TopBox>
                     <BottomBox>
-                        <span>Don't have an account?</span> <a href="#">Sign up</a>
+                        <span>Don't have an account?</span> <a href="#">Sign up</a> <br/><br/>
+                        <input onClick={()=>darkModeVar(true)}type="button" value="다크 모드"/>
+                        <input onClick={()=>darkModeVar(false)} type="button" value="라이트 모드"/>
                     </BottomBox>
                 </Wrapper>
             </Container>
