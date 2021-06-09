@@ -13,6 +13,6 @@ const SButton = styled.input`
 `;
 
 function Button(props) {
-  return <SButton {...props} />;
+  return <SButton {...props} />;  
 }
 export default Button;

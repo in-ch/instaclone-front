@@ -7,3 +7,6 @@
 #8.8 ThemeProvider를 설치하면 dark mode를 적용할 수 있다.
 
 #8.9 styled-reset으로 모든 css 초기값을 0으로 만들 수 있다.
+
+#10.3 <SButton {...props} # 이런식으로 써져있는데 이렇게 안하면 value같은 값들이 적용이 안됨.
+      {children} 을 쓰면 하위 태그를 만들 수 있다.
