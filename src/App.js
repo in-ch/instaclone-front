@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BrowserRouter as Router,Switch, Route, Redirect } from "react-router-dom";
 import Home from './screens/Home';
 import Login from './screens/Login';
-import SignUp from './screens/signUp';
+import SignUp from './screens/SignUp';
 import NotFound from './screens/404';
 import { useReactiveVar } from "@apollo/client";
 import { darkModeVar, isLoggedInVar } from "./apollo";
@@ -25,8 +25,8 @@ const App = () => {
                   {isLoggedIn ? <Home />: <Login />}
                 </Route>
 
-                <Route path={routes.signUp} exact>
-                  {isLoggedIn ? <SignUp />: null}
+                <Route path={routes.SignUp} exact>
+                  {isLoggedIn ? null : <SignUp />}
                 </Route>
 
                 <Route path="/inch" exact>
