@@ -9,6 +9,7 @@ import { darkModeVar, isLoggedInVar } from "./apollo";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme, GlobalStyles } from "./styles";
 import routes from "./routes";
+import { HelmetProvider } from "react-helmet-async";
 
 const App = () => {
  
@@ -16,31 +17,33 @@ const App = () => {
   const darkMode = useReactiveVar(darkModeVar);
 
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-        <GlobalStyles />
-            <Router>
-              <Switch>
+    <HelmetProvider>
+        <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+            <GlobalStyles />
+                <Router>
+                  <Switch>
 
-                <Route path={routes.home} exact>
-                  {isLoggedIn ? <Home />: <Login />}
-                </Route>
+                    <Route path={routes.home} exact>
+                      {isLoggedIn ? <Home />: <Login />}
+                    </Route>
 
-                <Route path={routes.signUp} exact>
-                  {isLoggedIn ? null : <SignUp />}
-                </Route>
+                    <Route path={routes.signUp} exact>
+                      {isLoggedIn ? null : <SignUp />}
+                    </Route>
 
-                <Route path="/inch" exact>
-                  {!isLoggedIn ? "로그인해주세요." : "로그인 되어 있네요."}
-                </Route>
+                    <Route path="/inch" exact>
+                      {!isLoggedIn ? "로그인해주세요." : "로그인 되어 있네요."}
+                    </Route>
 
-                <Route>
-                  <NotFound />
-                  {/* <Redirect to="/" />  리다이렉트 시키는 것임 */}
-                </Route>
+                    <Route>
+                      <NotFound />
+                      {/* <Redirect to="/" />  리다이렉트 시키는 것임 */}
+                    </Route>
 
-              </Switch>
-            </Router>
-    </ThemeProvider>
+                  </Switch>
+                </Router>
+        </ThemeProvider>
+    </HelmetProvider>
   );
 }
 
