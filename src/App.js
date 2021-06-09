@@ -25,7 +25,7 @@ const App = () => {
                   {isLoggedIn ? <Home />: <Login />}
                 </Route>
 
-                <Route path={routes.SignUp} exact>
+                <Route path={routes.signUp} exact>
                   {isLoggedIn ? null : <SignUp />}
                 </Route>
 
