@@ -15,6 +15,7 @@ import Input from "../components/auth/Input";
 import Separator from "../components/auth/Separator";
 import routes from "../routes";
 import PageTitle from "../components/PageTitle";
+import { useForm } from "react-hook-form";
 
 const FacebookLogin = styled.div`
   color: #385285;
@@ -30,7 +31,7 @@ const Login = () => {
         console.log(data);
     }
     const onSubmitInVaild = (data) => {  // 유효하지 않을 때 실행될 함수
-        alert(data);
+        console.log(data.password.message);
     }
     return (    
         <>
@@ -41,18 +42,10 @@ const Login = () => {
                         <FontAwesomeIcon icon={faInstagram} size="3x" />
                     </div>
                     <form onSubmit={handleSubmit(onSubmitVaild,onSubmitInVaild)}>
-                        <Input ref={register({
-                            required: "유저 이름은 필수입니다.",
-                            minLength: 5,
-                            pattern: "",
-                            validate: (current) => currentValue.includes("inch"),
-                        })} 
-                         name="username" type="text" placeholder="Username" />
-                        <Input  ref={register({
-                            required: "해당 패스워드는 필수입니다.",
-                            minLength: 5,
-                        })} 
-                         name="password" type="password" placeholder="Password" />
+                        <Input {...register('username', { required:'아이디는 필수입니다.', validate:{} })} 
+                            name="username" type="text" placeholder="Username" />
+                        <Input {...register('password',{required:"비밀번호는 필수입니다." })} 
+                            name="password" type="password" placeholder="Password" />
                         <Button type="submit" value="Log in" />
                     </form>
                     <Separator />
