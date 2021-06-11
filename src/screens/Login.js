@@ -31,10 +31,8 @@ const Login = () => {
         mode: "onChange",
     });  
     const onSubmitVaild = (data) => {  // 유효할 때 실행될 함수
-        console.log(data);
     }
     const onSubmitInVaild = (data) => {  // 유효하지 않을 때 실행될 함수
-        console.log(data.password.message);
     }
     return (    
         <>
