@@ -46,7 +46,6 @@ const Login = () => {
             return ; 
         }
         const {username, password} = getValues();
-
         mutationLogin({
             variables: {
                 username,
@@ -55,20 +54,22 @@ const Login = () => {
         });
     };
     const onSubmitInVaild = (data) => {  // 유효하지 않을 때 실행될 함수
+        console.log(data);
     };
 
     const onCompleted = (data) => {
-        const {login: {ok,error, token}} = data;
-        if(!ok){
-            setError("result", {
-                error
-            });
+        const {
+          login: { ok, error, token },
+        } = data;
+        if (!ok) {
+          setError("result", {
+            message: error,
+          });
         }
-    };
-
-    const [mutationLogin,{loading}] = useMutation(LOGIN_MUTATION, {
+      };
+      const [mutationLogin, { loading }] = useMutation(LOGIN_MUTATION, {
         onCompleted,
-    });
+      });
     return (    
         <>
             <AuthLayout>
@@ -78,15 +79,31 @@ const Login = () => {
                         <FontAwesomeIcon icon={faInstagram} size="3x" />
                     </div>
                     <form onSubmit={handleSubmit(onSubmitVaild,onSubmitInVaild)}>
-                        <Input {...register('username', { required:'아이디는 필수입니다.', minLength:{value:5,message:"유저 아이디는 최소 5글자 이상입니다."}, maxLength:{value:13,message:"유저 아이디는 최대 15글자 입니다."}})} 
-                            name="username" type="text" placeholder="Username" />
-                        <FormError message={errors?.username?.message}/>
 
-                        <Input {...register('password',{required:"비밀번호는 필수입니다.", minLength:{value:5,message:"비밀번호는 최소 5글자 이상입니다."}, maxLength:{value:13,message:"유저 비밀번호는 최대 15글자 입니다."}})} 
-                            name="password" type="password" placeholder="Password" />
+                    <Input
+                        ref={register({
+                        required: "아이디는 필수입니다.",
+                        minLength: {
+                            value: 5,
+                            message: "아이디는 5글자 이상이여야 합니다.",
+                        },
+                        })}
+                        name="username"
+                        type="text"
+                        placeholder="Username"
+                    />
+                     <Input
+                        ref={register({
+                        required: "비밀번호는 필수입니다.",
+                        })}
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                    />
+
                         <Button type="submit" value={loading ? 'Loading...' : 'Log In'} disabled={!formState.isValid||loading}/>
+                        <FormError message={errors?.username?.message ? errors?.username?.message : errors?.password?.message}/>
 
-                        <FormError message={errors?.password?.message}/>
                         <FormError message={errors?.result?.message}/>
                     </form>
                     <Separator />
