@@ -16,6 +16,7 @@ import Separator from "../components/auth/Separator";
 import routes from "../routes";
 import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
+import FormError from "../components/auth/FormError";
 
 const FacebookLogin = styled.div`
   color: #385285;
@@ -26,7 +27,9 @@ const FacebookLogin = styled.div`
 `;
 
 const Login = () => {
-    const { register, watch, handleSubmit } = useForm();  
+    const { register, watch, handleSubmit, errors, formState } = useForm({
+        mode: "onChange",
+    });  
     const onSubmitVaild = (data) => {  // 유효할 때 실행될 함수
         console.log(data);
     }
@@ -42,11 +45,13 @@ const Login = () => {
                         <FontAwesomeIcon icon={faInstagram} size="3x" />
                     </div>
                     <form onSubmit={handleSubmit(onSubmitVaild,onSubmitInVaild)}>
-                        <Input {...register('username', { required:'아이디는 필수입니다.', validate:{} })} 
+                        <Input {...register('username', { required:'아이디는 필수입니다.', minLength:{value:5,message:"유저 아이디는 최소 5글자 이상입니다."}, maxLength:{value:13,message:"유저 아이디는 최대 15글자 입니다."}})} 
                             name="username" type="text" placeholder="Username" />
-                        <Input {...register('password',{required:"비밀번호는 필수입니다." })} 
+                            
+                        <Input {...register('password',{required:"비밀번호는 필수입니다.", minLength:{value:5,message:"비밀번호는 최소 5글자 이상입니다."}, maxLength:{value:13,message:"유저 비밀번호는 최대 15글자 입니다."}})} 
                             name="password" type="password" placeholder="Password" />
-                        <Button type="submit" value="Log in" />
+                        <Button type="submit" value="Log in" disabled={!formState.isValid}/>
+                        <FormError message={errors?.password?.message}/>
                     </form>
                     <Separator />
                     <FacebookLogin>
