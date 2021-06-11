@@ -1,8 +1,7 @@
+import { gql, useMutation } from "@apollo/client";
 import { darkModeVar, isLoggedInVar } from "../apollo";
 import styled from "styled-components";
 import {
-    faFacebook,
-    faFacebookF,
     faFacebookSquare,
     faInstagram,
   } from "@fortawesome/free-brands-svg-icons";
@@ -17,7 +16,6 @@ import routes from "../routes";
 import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
 import FormError from "../components/auth/FormError";
-import { gql, useMutation } from "@apollo/client";
 
 const FacebookLogin = styled.div`
   color: #385285;
@@ -28,36 +26,22 @@ const FacebookLogin = styled.div`
 `;
 
 const LOGIN_MUTATION = gql`
-    mutation login($username:String!, $password: String!){
-        login(username:$username, password:$password) {
-            ok
-            error
-            token
-        }
+  mutation login($username: String!, $password: String!) {
+    login(userName: $username, password: $password) {
+      ok
+      token
+      error
     }
+  }
 `;
 
 const Login = () => {
     const { register, watch, handleSubmit, errors, formState, getValues, setError } = useForm({
         mode: "onChange",
     });  
-    const onSubmitVaild = (data) => {  // 유효할 때 실행될 함수
-        if(loading){  // double click 방지
-            return ; 
-        }
-        const {username, password} = getValues();
-        mutationLogin({
-            variables: {
-                username,
-                password
-            }
-        });
-    };
-    const onSubmitInVaild = (data) => {  // 유효하지 않을 때 실행될 함수
-        console.log(data);
-    };
 
     const onCompleted = (data) => {
+
         const {
           login: { ok, error, token },
         } = data;
@@ -66,10 +50,30 @@ const Login = () => {
             message: error,
           });
         }
-      };
-      const [mutationLogin, { loading }] = useMutation(LOGIN_MUTATION, {
+    };
+
+    const [mutationLogin, { loading }] = useMutation(LOGIN_MUTATION, {
         onCompleted,
-      });
+    });
+
+    const onSubmitVaild = (data) => {  // 유효할 때 실행될 함수
+        if(loading){  // double click 방지
+            return ; 
+        }
+        const {username, password} = getValues();
+
+        mutationLogin({
+            variables: {
+                username,
+                password
+            },
+        });
+    };
+
+    const onSubmitInVaild = (data) => {  // 유효하지 않을 때 실행될 함수
+        console.log(data);
+    };
+
     return (    
         <>
             <AuthLayout>
