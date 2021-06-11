@@ -25,6 +25,13 @@ const FacebookLogin = styled.div`
 `;
 
 const Login = () => {
+    const { register, watch, handleSubmit } = useForm();  
+    const onSubmitVaild = (data) => {  // 유효할 때 실행될 함수
+        console.log(data);
+    }
+    const onSubmitInVaild = (data) => {  // 유효하지 않을 때 실행될 함수
+        alert(data);
+    }
     return (    
         <>
             <AuthLayout>
@@ -33,9 +40,19 @@ const Login = () => {
                     <div>
                         <FontAwesomeIcon icon={faInstagram} size="3x" />
                     </div>
-                    <form>
-                        <Input type="text" placeholder="Username" />
-                        <Input type="password" placeholder="Password" />
+                    <form onSubmit={handleSubmit(onSubmitVaild,onSubmitInVaild)}>
+                        <Input ref={register({
+                            required: "유저 이름은 필수입니다.",
+                            minLength: 5,
+                            pattern: "",
+                            validate: (current) => currentValue.includes("inch"),
+                        })} 
+                         name="username" type="text" placeholder="Username" />
+                        <Input  ref={register({
+                            required: "해당 패스워드는 필수입니다.",
+                            minLength: 5,
+                        })} 
+                         name="password" type="password" placeholder="Password" />
                         <Button type="submit" value="Log in" />
                     </form>
                     <Separator />
