@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { darkModeVar, isLoggedInVar } from "../apollo";
+import { darkModeVar, isLoggedInVar, logUserIn } from "../apollo";
 import styled from "styled-components";
 import {
     faFacebookSquare,
@@ -36,19 +36,21 @@ const LOGIN_MUTATION = gql`
 `;
 
 const Login = () => {
-    const { register, watch, handleSubmit, errors, formState, getValues, setError } = useForm({
+    const { register, handleSubmit, errors, formState, getValues, setError, clearErrors } = useForm({
         mode: "onChange",
     });  
 
     const onCompleted = (data) => {
-
         const {
           login: { ok, error, token },
         } = data;
         if (!ok) {
-          setError("result", {
+          return setError("result", {
             message: error,
           });
+        } 
+        if(token){
+            logUserIn(token);
         }
     };
 
@@ -73,7 +75,9 @@ const Login = () => {
     const onSubmitInVaild = (data) => {  // 유효하지 않을 때 실행될 함수
         console.log(data);
     };
-
+    const clearLoginError = () => {
+        clearErrors("result");
+    };
     return (    
         <>
             <AuthLayout>
@@ -88,13 +92,14 @@ const Login = () => {
                         ref={register({
                         required: "아이디는 필수입니다.",
                         minLength: {
-                            value: 5,
+                            value: 4,
                             message: "아이디는 5글자 이상이여야 합니다.",
                         },
                         })}
                         name="username"
                         type="text"
                         placeholder="Username"
+                        onChange={clearLoginError}
                     />
                      <Input
                         ref={register({
@@ -103,6 +108,7 @@ const Login = () => {
                         name="password"
                         type="password"
                         placeholder="Password"
+                        onChange={clearLoginError}
                     />
 
                         <Button type="submit" value={loading ? 'Loading...' : 'Log In'} disabled={!formState.isValid||loading}/>
