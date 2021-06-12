@@ -10,6 +10,10 @@ import { FatLink } from "../components/shared";
 import routes from "../routes";
 import PageTitle from "../components/PageTitle";
 
+import { useForm } from "react-hook-form";
+import FormError from "../components/auth/FormError";
+import { gql, useMutation } from "@apollo/client";
+
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -22,7 +26,41 @@ const Subtitle = styled(FatLink)`
   margin-top: 10px;
 `;
 
+const CREATE_ACCOUNT_MUTATION = gql`
+  mutation createAccount($firstName: String!, $lastName: String, $userName: String!, $email: String!, $password: String!) 
+  {
+     createAccount(
+       firstName: $firstName
+       lastName : $lastName
+       userName : $userName 
+       email : $email
+       password : $password
+     ) {
+       ok
+       error 
+     }
+
+  }
+`;
+
+
 const  SignUp = () => {
+  const {register, handleSubmit, formState, errors} = useForm({
+    mode:"onChange",
+  });
+
+  const [createAccount, {loading}] = useMutation(CREATE_ACCOUNT_MUTATION);
+  const onSubmitEvent = (data) => {
+    if(loading) {
+      return;
+    }
+    createAccount({
+      variables:{
+        ...data,
+      }
+    })
+  };
+
   return (
     <AuthLayout>
       <PageTitle title="Sign Up" />
@@ -33,14 +71,27 @@ const  SignUp = () => {
             Sign up to see photos and videos from your friends.
           </Subtitle>
         </HeaderContainer>
-        <form>
-          <Input type="text" placeholder="Name" />
-          <Input type="text" placeholder="Email" />
-          <Input type="text" placeholder="Username" />
-          <Input type="password" placeholder="Password" />
-          <Button type="submit" value="Sign up" />
+
+        <form onSubmit={handleSubmit(onSubmitEvent)}>  
+            <Input ref={register({
+              required:"첫번째 이름은 필수입니다.",
+            })} name="firstname" type="text" placeholder="First Name" />
+            <Input name="lastname" type="text" placeholder="Last Name" />
+            <Input ref={register({
+              required:"이메일은 필수입니다.",
+            })} name="email" type="text" placeholder="Email" />
+            <Input ref={register({
+              required:"유저이름은 필수입니다.",
+            })} name="userName" type="text" placeholder="Username" />
+            <Input ref={register({
+              required:"비밀번호는 필수입니다.",
+            })} name="password" type="password" placeholder="Password" />
+
+            <Button type="submit" value={loading ? 'Loading...' : 'Sign Up'} disabled={!formState.isValid||loading}/>
+            <FormError message={errors?.username?.message ? errors?.username?.message : errors?.password?.message}/>
         </form>
       </FormBox>
+
       <BottomBox cta="Have an account?" linkText="Log in" link={routes.home} />
     </AuthLayout>
   );
