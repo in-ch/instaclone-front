@@ -13,6 +13,7 @@ import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
 import FormError from "../components/auth/FormError";
 import { gql, useMutation } from "@apollo/client";
+import { useHistory } from "react-router-dom";
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -48,8 +49,21 @@ const  SignUp = () => {
   const { register, handleSubmit, formState, errors, getValues } = useForm({
     mode:"onChange",
   });
+  
+  const history = useHistory();
 
-  const [createAccount, {loading}] = useMutation(CREATE_ACCOUNT_MUTATION);
+  const onCompleted = (data) => {
+    const {
+      createAccount: {ok, Boolean}
+    } = data;
+    if(!ok){
+      return;
+    }
+    history.push(routes.home);
+  }
+  const [createAccount, {loading}] = useMutation(CREATE_ACCOUNT_MUTATION, {
+    onCompleted,
+  });
   const onSubmitEvent = (data) => {
     console.log(data);
 
@@ -59,11 +73,12 @@ const  SignUp = () => {
     const {firstName, lastName, email, userName,password } = getValues();
     createAccount({
       variables:{
-        firstName,
-        lastName,
-        email,
-        userName,
-        password,
+        // firstName,
+        // lastName,
+        // email,
+        // userName,
+        // password,
+        ...data,
       }
     })
   };
