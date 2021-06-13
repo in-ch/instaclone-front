@@ -6,11 +6,13 @@ export const lightTheme= {
     bgColor: "#FAFAFA",
     fontColor: "rgb(38, 38, 38)",
     borderColor: "rgb(219, 219, 219)",
+    accent: "#0095f6",
   };
   
 export const darkTheme = {
     fontColor : "lightgray",
     bgColor: "#2c2c2c",
+    fontColor: "white",
     accent: "#0095f6",
     borderColor: "rgb(219, 219, 219)",
 };
