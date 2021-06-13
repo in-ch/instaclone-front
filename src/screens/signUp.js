@@ -45,18 +45,25 @@ const CREATE_ACCOUNT_MUTATION = gql`
 
 
 const  SignUp = () => {
-  const {register, handleSubmit, formState, errors} = useForm({
+  const { register, handleSubmit, formState, errors, getValues } = useForm({
     mode:"onChange",
   });
 
   const [createAccount, {loading}] = useMutation(CREATE_ACCOUNT_MUTATION);
   const onSubmitEvent = (data) => {
+    console.log(data);
+
     if(loading) {
       return;
     }
+    const {firstName, lastName, email, userName,password } = getValues();
     createAccount({
       variables:{
-        ...data,
+        firstName,
+        lastName,
+        email,
+        userName,
+        password,
       }
     })
   };
@@ -75,8 +82,8 @@ const  SignUp = () => {
         <form onSubmit={handleSubmit(onSubmitEvent)}>  
             <Input ref={register({
               required:"첫번째 이름은 필수입니다.",
-            })} name="firstname" type="text" placeholder="First Name" />
-            <Input name="lastname" type="text" placeholder="Last Name" />
+            })} name="firstName" type="text" placeholder="First Name" />
+            <Input name="lastName" type="text" placeholder="Last Name" />
             <Input ref={register({
               required:"이메일은 필수입니다.",
             })} name="email" type="text" placeholder="Email" />
