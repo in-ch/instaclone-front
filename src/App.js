@@ -10,6 +10,7 @@ import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme, GlobalStyles } from "./styles";
 import routes from "./routes";
 import { HelmetProvider } from "react-helmet-async";
+import Layout from "./components/Layout";
 
 const App = () => {
  
@@ -25,7 +26,7 @@ const App = () => {
                     <Switch>
 
                       <Route path={routes.home} exact>
-                        {isLoggedIn ? <Home />: <Login />}
+                        {isLoggedIn ? (<Layout><Home /></Layout>) : <Login />}
                       </Route>
 
                       <Route path={routes.signUp} exact>
