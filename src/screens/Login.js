@@ -15,6 +15,7 @@ import Separator from "../components/auth/Separator";
 import routes from "../routes";
 import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
+import {useLocation} from "react-router-dom";
 import FormError from "../components/auth/FormError";
 
 const FacebookLogin = styled.div`
@@ -26,8 +27,8 @@ const FacebookLogin = styled.div`
 `;
 
 const LOGIN_MUTATION = gql`
-  mutation login($username: String!, $password: String!) {
-    login(userName: $username, password: $password) {
+  mutation login($userName: String!, $password: String!) {
+    login(userName: $userName, password: $password) {
       ok
       token
       error
@@ -35,9 +36,19 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
+const Notification = styled.div`
+  font-size:12px;color:#2ecc71;margin-top:20px;
+`;
+
 const Login = () => {
+    const location = useLocation();
+
     const { register, handleSubmit, errors, formState, getValues, setError, clearErrors } = useForm({
         mode: "onChange",
+        defaultValues:{
+            userName:location?.state?.userName || "",
+            password:location?.state?.password || "",
+        }
     });  
 
     const onCompleted = (data) => {
@@ -62,11 +73,11 @@ const Login = () => {
         if(loading){  // double click 방지
             return ; 
         }
-        const {username, password} = getValues();
+        const {userName, password} = getValues();
 
         mutationLogin({
             variables: {
-                username,
+                userName,
                 password
             },
         });
@@ -78,6 +89,7 @@ const Login = () => {
     const clearLoginError = () => {
         clearErrors("result");
     };
+
     return (    
         <>
             <AuthLayout>
@@ -86,6 +98,8 @@ const Login = () => {
                     <div>
                         <FontAwesomeIcon icon={faInstagram} size="3x" />
                     </div>
+                    <Notification>{location?.state?.message}</Notification>
+
                     <form onSubmit={handleSubmit(onSubmitVaild,onSubmitInVaild)}>
 
                     <Input
@@ -96,7 +110,7 @@ const Login = () => {
                             message: "아이디는 5글자 이상이여야 합니다.",
                         },
                         })}
-                        name="username"
+                        name="userName"
                         type="text"
                         placeholder="Username"
                         onChange={clearLoginError}
@@ -112,7 +126,7 @@ const Login = () => {
                     />
 
                         <Button type="submit" value={loading ? 'Loading...' : 'Log In'} disabled={!formState.isValid||loading}/>
-                        <FormError message={errors?.username?.message ? errors?.username?.message : errors?.password?.message}/>
+                        <FormError message={errors?.userName?.message ? errors?.userName?.message : errors?.password?.message}/>
 
                         <FormError message={errors?.result?.message}/>
                     </form>

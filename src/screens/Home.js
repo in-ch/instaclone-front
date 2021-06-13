@@ -6,7 +6,6 @@ const Home = () => {
         <>
             <h1>홈</h1>
             <button onClick={()=>{logUserOut()}}>로그아웃 하기</button>
-
         </>
     )
     

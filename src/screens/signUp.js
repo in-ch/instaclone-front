@@ -56,10 +56,12 @@ const  SignUp = () => {
     const {
       createAccount: {ok, Boolean}
     } = data;
+    const { userName, password } = getValues();
     if(!ok){
       return;
     }
-    history.push(routes.home);
+    
+    history.push(routes.home, {message:"회원가입이 완료되었습니다."}, userName, password);
   }
   const [createAccount, {loading}] = useMutation(CREATE_ACCOUNT_MUTATION, {
     onCompleted,
