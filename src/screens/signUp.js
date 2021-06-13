@@ -46,44 +46,44 @@ const CREATE_ACCOUNT_MUTATION = gql`
 
 
 const  SignUp = () => {
-  const { register, handleSubmit, formState, errors, getValues } = useForm({
+  const { register, handleSubmit, formState, errors, getValues, setError } = useForm({
     mode:"onChange",
   });
   
   const history = useHistory();
 
   const onCompleted = (data) => {
-    const {
-      createAccount: {ok, Boolean}
-    } = data;
-    const { userName, password } = getValues();
-    if(!ok){
-      return;
-    }
-    
-    history.push(routes.home, {message:"회원가입이 완료되었습니다."}, userName, password);
+      const {
+        createAccount: {ok, error, Boolean}
+      } = data;
+      if(!ok){
+        return setError("result", {
+          message: error,
+        });
+      }
+      const { userName, password } = getValues();
+  
+      history.push(routes.home, {message:"회원가입이 완료되었습니다."}, userName, password);
   }
   const [createAccount, {loading}] = useMutation(CREATE_ACCOUNT_MUTATION, {
     onCompleted,
   });
   const onSubmitEvent = (data) => {
-    console.log(data);
-
     if(loading) {
       return;
     }
-    const {firstName, lastName, email, userName,password } = getValues();
-    createAccount({
-      variables:{
-        // firstName,
-        // lastName,
-        // email,
-        // userName,
-        // password,
-        ...data,
-      }
-    })
+
+    try{
+      createAccount({
+        variables:{
+          ...data,
+        }
+      });
+    } catch(error){
+      console.log(error);
+    }
   };
+  
 
   return (
     <AuthLayout>
@@ -112,7 +112,8 @@ const  SignUp = () => {
             })} name="password" type="password" placeholder="Password" />
 
             <Button type="submit" value={loading ? 'Loading...' : 'Sign Up'} disabled={!formState.isValid||loading}/>
-            <FormError message={errors?.username?.message ? errors?.username?.message : errors?.password?.message}/>
+            <FormError message={errors?.result?.message} />
+
         </form>
       </FormBox>
 

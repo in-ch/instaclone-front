@@ -5,8 +5,9 @@ export const logUserIn = (token) => {
     localStorage.setItem("token",token);
     isLoggedInVar(true);
 };
-export const logUserOut = () => {
+export const logUserOut = (history) => {
     localStorage.removeItem("token");
+    history.replace();
     window.location.reload();
 };
 
