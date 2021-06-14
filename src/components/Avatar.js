@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 const SAvatar = styled.div`
-    width:18px;height:18px;border-radius:15px;background-color:white;
+    border-radius:50%;background-color:white;
+    width:${(props)=>(props.large ? '35px' : '25px')};
+    height:${(props)=>(props.large ? '35px' : '25px')};
     overflow:hidden;
 `;
 
@@ -10,8 +12,8 @@ const Img = styled.img`
 `;
 
 
-const Avatar = ({url = ""}) => {
-    return <SAvatar>
+const Avatar = ({url = "",large = false}) => {
+    return <SAvatar large={large}>
         {url !== "" ? <Img src={url} /> : null}
     </SAvatar>
 };
