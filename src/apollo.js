@@ -11,7 +11,10 @@ export const logUserIn = (token) => {
 };
 export const logUserOut = (history) => {
     localStorage.removeItem("incheolisbest");
-    history.replace();
+    try{
+        history.replace();   
+    } catch(e){
+    }
     window.location.reload();
 };
 
