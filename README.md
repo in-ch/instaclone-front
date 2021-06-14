@@ -15,3 +15,6 @@
 
 #11.1 <></>를 fragment라고 부른다. 
 
+#11.2 계속 { me:null } 이랬던 이유는 protectResolver 때문임. 
+     
+#11.3 -> 그럼 왜 Back-end가 token에 반응하지 않았던 걸까?  Localstorage에 분명 token이 있는데 ... 
