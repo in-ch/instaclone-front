@@ -1,25 +1,21 @@
 import { gql, useQuery, useReactiveVar } from "@apollo/client";
 import { isLoggedInVar } from "../apollo";
 
-
 const ME_QUERY = gql`
-    query me {
-        me {
-            id
-            userName 
-            error 
-        }
+  query me {
+    me {
+      userName
+      avatar
     }
+  }
 `;
 
-const UseUser = () => {
-    const isLoggedIn = useReactiveVar(isLoggedInVar);
-    const {data, error} = useQuery(ME_QUERY, {
-        skip:!isLoggedIn,
-    });
-    
-
-    return;
-};
-
-export default UseUser;
+function useUser() {
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const { data, error } = useQuery(ME_QUERY, {
+    skip: !isLoggedIn,
+  });
+  console.log('이거 에러임...', error);
+  return;
+}
+export default useUser;

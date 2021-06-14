@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { isLoggedInVar } from "../apollo";
 import {Link} from "react-router-dom";
 import routes from "../routes";
-import UseUser from "../hooks/UseUser";
+import useUser from "../hooks/UseUser";
 
 const Btn = styled.span`
   background-color: ${(props) => props.theme.accent};
@@ -51,7 +51,7 @@ const Icon = styled.span`
 
 function Header() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const loggedInUser = UseUser();
+  const loggedInUser = useUser();
   
   return (
     <SHeader>
