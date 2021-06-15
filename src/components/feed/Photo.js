@@ -62,6 +62,23 @@ const Likes = styled(FatText)`
   margin-top: 15px;
   display: block;
 `;
+
+const Comments = styled.div`
+  margin-top: 20px;
+`;
+const Comment = styled.div``;
+const CommentCaption = styled.span`
+  margin-left: 10px;
+`;
+
+const CommentCount = styled.span`
+  opacity: 0.7;
+  margin: 15px 0px;
+  display: block;
+  font-weight: 600;
+  font-size: 10px;
+`;
+
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
     toggleLike(id: $id) {
@@ -131,6 +148,15 @@ const Photo = ({ id, user, file, isLiked, likes, caption, commentNumber }) =>  {
           </div>
         </PhotoActions>
         <Likes>{likes === 1 ? "1 like" : `${likes} likes`}</Likes>
+        <Comments>
+          <Comment>
+            <FatText>{user.userName}</FatText>
+            <CommentCaption>{caption}</CommentCaption>
+          </Comment>
+          <CommentCount>
+            {commentNumber === 1 ? "1 comment" : `${commentNumber} comments`}
+          </CommentCount>
+        </Comments>
         
       </PhotoData>
     </PhotoContainer>
