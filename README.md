@@ -23,3 +23,5 @@
 
 #11.10 -> 만약 writeFragment를 쓰고 싶은데 cache에서 data를 가져올 수 없으면 (부모 컴포넌트에서 자식 컴포넌트로 값을 안 넘겼기 때문..) readFragment()를 쓰면 된다. 
 
+#11.11 sanitize-html을 통해 html inject 해킹을 막을 것이다. -> <Mark>태그를 넣기 위해 .. hashtag...
+
