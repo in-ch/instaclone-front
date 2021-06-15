@@ -71,7 +71,7 @@ const TOGGLE_LIKE_MUTATION = gql`
   }
 `;
 
-const Photo = ({ id, user, file, isLiked, likes }) =>  {
+const Photo = ({ id, user, file, isLiked, likes, caption, commentNumber }) =>  {
     
     const updateToggleLike = (cache, result) => {
         const {
@@ -85,10 +85,12 @@ const Photo = ({ id, user, file, isLiked, likes }) =>  {
                 fragment: gql`
                   fragment BSName on Photo {
                     isLiked
+                    likes
                   }
                 `,
                 data: {
                   isLiked: !isLiked,
+                  likes: isLiked ? likes -1 : likes + 1
                 },
             });
         }
@@ -129,6 +131,7 @@ const Photo = ({ id, user, file, isLiked, likes }) =>  {
           </div>
         </PhotoActions>
         <Likes>{likes === 1 ? "1 like" : `${likes} likes`}</Likes>
+        
       </PhotoData>
     </PhotoContainer>
   );
@@ -143,5 +146,8 @@ Photo.propTypes = {
   file: PropTypes.string.isRequired,
   isLiked: PropTypes.bool.isRequired,
   likes: PropTypes.number.isRequired,
+  caption: PropTypes.string.isRequired,
+  commentNumber: PropTypes.number.isRequired,
+  comments: PropTypes.arrayOf(PropTypes.shape),
 };
 export default Photo;
