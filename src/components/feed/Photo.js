@@ -12,14 +12,6 @@ import styled from "styled-components";
 import Avatar from "../Avatar";
 import { FatText } from "../shared";
 
-const TOGGLE_LIKE_MUTATION = gql`
-  mutation toggleLike($id: Int!) {
-    toggleLike(id: $id) {
-      ok
-      error
-    }
-  }
-`;
 
 const PhotoContainer = styled.div`
   background-color: white;
@@ -70,13 +62,45 @@ const Likes = styled(FatText)`
   margin-top: 15px;
   display: block;
 `;
+const TOGGLE_LIKE_MUTATION = gql`
+  mutation toggleLike($id: Int!) {
+    toggleLike(id: $id) {
+      ok
+      error
+    }
+  }
+`;
 
-function Photo({ id, user, file, isLiked, likes }) {
-  const [toggleLikeMutation, { loading }] = useMutation(TOGGLE_LIKE_MUTATION, {
-    variables: {
-      id,
-    },
-  });
+const Photo = ({ id, user, file, isLiked, likes }) =>  {
+    
+    const updateToggleLike = (cache, result) => {
+        const {
+            data:{
+                toggleLike: {ok},
+            }
+        } = result;
+        if(ok) {
+            cache.writeFragment({
+                id: `Photo:${id}`,
+                fragment: gql`
+                  fragment BSName on Photo {
+                    isLiked
+                  }
+                `,
+                data: {
+                  isLiked: !isLiked,
+                },
+            });
+        }
+    };
+
+    const [toggleLikeMutation, { loading }] = useMutation(TOGGLE_LIKE_MUTATION, {
+        variables: {
+            id,
+        },
+        update: updateToggleLike
+         // backend와 소통 가능 
+    });
   return (
     <PhotoContainer key={id}>
       <PhotoHeader>

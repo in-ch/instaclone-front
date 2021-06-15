@@ -18,3 +18,5 @@
 #11.2 계속 { me:null } 이랬던 이유는 protectResolver 때문임. 
      
 #11.3 -> 그럼 왜 Back-end가 token에 반응하지 않았던 걸까?  Localstorage에 분명 token이 있는데 ... 
+
+#11.9 -> writeFragment 및 BSName 그리고 Update를 쓰면 cache에 접근이 가능하고 따라서 cache 수정이 가능하다.
