@@ -120,7 +120,7 @@ Comments.propTypes = {
       }),
       payload: PropTypes.string.isRequired,
       isMine: PropTypes.bool.isRequired,
-      createdAt: PropTypes.string.isRequired,
+      createAt: PropTypes.string.isRequired,
     })
   ),
 };
