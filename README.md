@@ -29,3 +29,6 @@
 
 #11.11 sanitize-html을 통해 html inject 해킹을 막을 것이다. -> <Mark>태그를 넣기 위해 .. hashtag...
 
+#11.18 단순히 newComment를 cache.modify해서 넣는다면 정확하게 typename을 지정해 줄 수 없기 때문에 
+       cache.writeFragment를 통해 먼저 틀을 만들어 놓고 그것을 cache.modify를 통해 값을 넣어줘야 함. 
+
