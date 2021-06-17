@@ -25,7 +25,6 @@ const FEED_QUERY = gql`
 `;
 
 const Home = () => {
-    const history = useHistory();
     const {data} = useQuery(FEED_QUERY);
     console.log(data);
 
