@@ -35,7 +35,7 @@ const App = () => {
                       </Route>
 
                       <Route path={`/users/:userName`}>
-                          <Profile />
+                          <Layout><Profile /></Layout>
                       </Route>
 
                       <Route>

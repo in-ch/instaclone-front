@@ -10,13 +10,6 @@ import routes from "../routes";
 import useUser from "../hooks/UseUser";
 import Avatar from "../components/Avatar";
 
-const Btn = styled.span`
-  background-color: ${(props) => props.theme.accent};
-  color: white;
-  border-radius: 4px;
-  padding: 5px 15px;
-  font-weight: 600;
-`;
 
 const Button = styled.span`
   background-color: ${(props) => props.theme.accent};
@@ -69,13 +62,15 @@ function Header() {
           {isLoggedIn ? (
             <IconContainer>
               <Icon>
-                <FontAwesomeIcon icon={faHome} size="lg" />
+                <Link to={routes.home}>
+                  <FontAwesomeIcon icon={faHome} size="lg" />
+                </Link>
               </Icon>
               <Icon>
                 <FontAwesomeIcon icon={faCompass} size="lg" />
               </Icon>
               <Icon>
-                <Link to={`/users/${data?.me?.username}`}>
+                <Link to={`/users/${data?.me?.userName}`}>
                   <Avatar url={data?.me?.avatar} />
                 </Link>
               </Icon>

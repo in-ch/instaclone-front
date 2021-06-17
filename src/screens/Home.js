@@ -5,28 +5,27 @@ import PageTitle from "../components/PageTitle";
 import { PHOTO_FRAGMENT, COMMENT_FRAGMENT} from "../fragments";
 
 const FEED_QUERY = gql`
-    query seeFeed {
-        ...PhotoFragment
-        seeFeed{
+        query seeFeed {
+            seeFeed {
+            ...PhotoFragment
             user {
                 userName
                 avatar
             }
             caption
-            comments{
-                ...COMMENT_FRAGMENT
+            comments {
+                ...CommentFragment
             }
             createAt
             isMine
+            }
         }
-    }
-    ${PHOTO_FRAGMENT}
-    ${COMMENT_FRAGMENT}
+        ${PHOTO_FRAGMENT}
+        ${COMMENT_FRAGMENT}
 `;
 
 const Home = () => {
     const {data} = useQuery(FEED_QUERY);
-    console.log(data);
 
     return (
         <>
