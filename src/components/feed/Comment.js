@@ -9,6 +9,9 @@ import { Link } from "react-router-dom";
 
 const CommentContainer = styled.div`
     margin-top:5px;    
+    button{
+      background:white;margin-left:50px;border:1px solid RGB(200,200,200);font-size:10px;
+    }
 `;
 const CommentCaption = styled.span`
   margin-left: 10px;

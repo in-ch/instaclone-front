@@ -7,6 +7,9 @@ import useUser from "../../hooks/UseUser";
 
 const CommentsContainer = styled.div`
   margin-top: 20px;
+  form{
+    margin-top:20px;
+  }
 `;
 const CommentCount = styled.span`
   opacity: 0.7;
