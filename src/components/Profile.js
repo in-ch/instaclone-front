@@ -87,16 +87,19 @@ const SEE_PROFIE_QUERY = gql`
             lastName 
             userName 
             bio 
-            avatar 
-            photos {
-                ...PhotoFragment
-            } 
+            avatar
             totalFollowers 
             totalFollowing 
             isMe 
             isFollowing 
+            photos{
+              id
+              file
+              likes
+              commentNumber
+              isLiked
+            }
         }
-        ${PHOTO_FRAGMENT}
     }
 `;
 
@@ -109,54 +112,54 @@ const Profile = () => {
     });
 
     return (
-            <div>
-                <Header>
-                    <Avatar src={data?.seeProfile?.avatar} />
-                    <Column>
-                    <Row>
-                        <Username>{data?.seeProfile?.userName}</Username>
-                    </Row>
-                    <Row>
-                        <List>
-                        <Item>
-                            <span>
-                            <Value>{data?.seeProfile?.totalFollowers}</Value> followers
-                            </span>
-                        </Item>
-                        <Item>
-                            <span>
-                            <Value>{data?.seeProfile?.totalFollowing}</Value> following
-                            </span>
-                        </Item>
-                        </List>
-                    </Row>
-                    <Row>
-                        <Name>
-                        {data?.seeProfile?.firstName}
-                        {"  "}
-                        {data?.seeProfile?.lastName}
-                        </Name>
-                    </Row>
-                    <Row>{data?.seeProfile?.bio}</Row>
-                    </Column>
-                </Header>
-                <Grid>
-                    {data?.seeProfile?.photos.map((photo) => (
-                    <Photo bg={photo.file}>
-                        <Icons>
-                        <Icon>
-                            <FontAwesomeIcon icon={faHeart} />
-                            {photo.likes}
-                        </Icon>
-                        <Icon>
-                            <FontAwesomeIcon icon={faComment} />
-                            {photo.commentNumber}
-                        </Icon>
-                        </Icons>
-                    </Photo>
-                    ))}
-                </Grid>
-            </div>
+        <>
+          <Header>
+              <Avatar src={data?.seeProfile?.avatar} />
+              <Column>
+                <Row>
+                  <Username>{data?.seeProfile?.userName}</Username>
+                </Row>
+                <Row>
+                  <List>
+                    <Item>
+                      <span>
+                        <Value>{data?.seeProfile?.totalFollowers}</Value> followers
+                      </span>
+                    </Item>
+                    <Item>
+                      <span>
+                        <Value>{data?.seeProfile?.totalFollowing}</Value> following
+                      </span>
+                    </Item>
+                  </List>
+                </Row>
+                <Row>
+                  <Name>
+                    {data?.seeProfile?.firstName}
+                    {"  "}
+                    {data?.seeProfile?.lastName}
+                  </Name>
+                </Row>
+                <Row>{data?.seeProfile?.bio}</Row>
+              </Column>
+            </Header>
+            <Grid>
+              {data?.seeProfile?.photos.map((photo) => (
+                <Photo bg={photo.file}>
+                  <Icons>
+                    <Icon>
+                      <FontAwesomeIcon icon={faHeart} />
+                      {photo.likes}
+                    </Icon>
+                    <Icon>
+                      <FontAwesomeIcon icon={faComment} />
+                      {photo.commentNumber}
+                    </Icon>
+                  </Icons>
+                </Photo>
+              ))}
+            </Grid>
+          </>
         );
 };
 
