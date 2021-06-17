@@ -1,3 +1,5 @@
+import {gql, useMutation} from "@apollo/client";
+
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { FatText } from "../shared";
@@ -17,11 +19,44 @@ const CommentCaption = styled.span`
     &:hover {
       text-decoration: underline;
     }
+  }  
+`;
+
+const DELETE_COMMENT_MUTATION = gql`
+  mutation deleteComment($id: Int!) {
+    deleteComment(id: $id) {
+      ok
+    }
   }
 `;
 
-function Comment({ author, payload }) {
+function Comment({ id, author, payload, isMine, photoId }) {
+  const updateDeleteComment = (cache, result) => {
+    const {data:{deleteComment: {ok}}} = result;
+    if(ok) {
+      cache.evict({
+        id: `Comment:${id}`
+      });
+      cache.modify({
+        id:`Photo:${photoId}`,
+        fields: {
+          commentNumber(prev) {
+            return prev -1;
+          }
+        }
+      });
+    }
+  }
+  const [deleteCommentMutation] = useMutation(DELETE_COMMENT_MUTATION,{
+    variables: {
+      id,
+    },
+    update:updateDeleteComment
+  });
 
+  const onClickDelete = () => {
+    deleteCommentMutation();
+  }
     // const cleanedPayload = sanitizeHtml(
     //     payload.replace(/#[\w]+/g, "<mark>$&</mark>"),
     //     {
@@ -46,13 +81,17 @@ function Comment({ author, payload }) {
           )
         )}
       </CommentCaption>
+      {isMine ? <button onClick={onClickDelete}>[삭제]</button> : null}
     </CommentContainer>
   );
 }
 
 Comment.propTypes = {
+  id: PropTypes.number,
   author: PropTypes.string.isRequired,
   payload: PropTypes.string.isRequired,
+  isMine: PropTypes.bool,
+  photoId: PropTypes.number.isRequired,
 };
 
 export default Comment;

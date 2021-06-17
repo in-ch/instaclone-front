@@ -107,9 +107,11 @@ const Comments = ({ photoId, author, caption, commentNumber, comments }) => {
       </CommentCount>
       {comments?.map((comment) => (
         <Comment
+          id={comment.id}
           key={comment.id}
           author={comment.user.userName}
           payload={comment.payload}
+          isMine={comment.isMine}
         />
       ))}
       <div>
