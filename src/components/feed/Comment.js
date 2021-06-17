@@ -69,7 +69,9 @@ function Comment({ id, author, payload, isMine, photoId }) {
     
   return (
     <CommentContainer>
-      <FatText>{author}</FatText>
+      <Link to={`/users/${author}`}>
+        <FatText>{author}</FatText>
+      </Link>
       <CommentCaption>
         {/* dangerouslySetInnerHTML={{ */}
         {/* __html: cleanedPayload, */}

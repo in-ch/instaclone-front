@@ -31,4 +31,8 @@ export const GlobalStyles = createGlobalStyle`
         font-size:14px;
         color:RGB(24,24,24);
     }
+    a{
+        color: inherit;
+        text-decoration: none;
+    }
 `;

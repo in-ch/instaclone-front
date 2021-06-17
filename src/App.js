@@ -11,6 +11,7 @@ import { darkTheme, lightTheme, GlobalStyles } from "./styles";
 import routes from "./routes";
 import { HelmetProvider } from "react-helmet-async";
 import Layout from "./components/Layout";
+import Profile from "./components/Profile";
 
 const App = () => {
  
@@ -33,15 +34,14 @@ const App = () => {
                         {isLoggedIn ? null : <SignUp />}
                       </Route>
 
-                      <Route path="/inch" exact>
-                        {!isLoggedIn ? "로그인해주세요." : "로그인 되어 있네요."}
+                      <Route path={`/users/:username`}>
+                          <Profile />
                       </Route>
 
                       <Route>
                         <NotFound />
                         {/* <Redirect to="/" />  리다이렉트 시키는 것임 */}
                       </Route>
-
                     </Switch>
                   </Router>
           </ThemeProvider>

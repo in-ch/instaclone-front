@@ -12,7 +12,7 @@ import styled from "styled-components";
 import Avatar from "../Avatar";
 import { FatText } from "../shared";
 import Comments from "./Comments";
-
+import {Link} from "react-router-dom";
 
 
 const PhotoContainer = styled.div`
@@ -113,8 +113,12 @@ const Photo = ({ id, user, file, isLiked, likes, caption, commentNumber, comment
   return (
     <PhotoContainer key={id}>
       <PhotoHeader>
-        <Avatar lg url={user.avatar} />
-        <Username>{user.userName}</Username>
+        <Link to={`/users/${user.userName}`}>
+          <Avatar lg url={user.avatar} />
+        </Link>
+        <Link to={`/users/${user.userName}`}>
+          <Username>{user.userName}</Username>
+        </Link>
       </PhotoHeader>
       <PhotoFile src={file} />
       <PhotoData>
