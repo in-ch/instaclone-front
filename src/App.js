@@ -34,7 +34,7 @@ const App = () => {
                         {isLoggedIn ? null : <SignUp />}
                       </Route>
 
-                      <Route path={`/users/:username`}>
+                      <Route path={`/users/:userName`}>
                           <Profile />
                       </Route>
 
