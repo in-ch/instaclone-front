@@ -44,3 +44,6 @@
 
 #12.6 update와 competed의 차이는 completed는 cache를 보내주지 않는다. data만 받음.. update는 cache와 update를 다 받음. 만약 completed에서 cache를 쓰고 싶다면 
       useApolloClient()를 써야한다. 
+
+
+#13.1 expo go를 쓰면 핸드폰 연결없이 바로 핸드폰에서 확인이 가능하다. over the air update를 쓰면 새 업데이트를 올리고 싶을 때 앱스토어를 스킵할 수 있다. 
