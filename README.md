@@ -39,3 +39,8 @@
 
 #12.1 fragment.js는 다른 query에서 사용가능한 graphql코드 조각이다. 
     id를 요청하지 않으면 cache에 저장될 때 그 이벤트가 뜨지 않는다.. 즉 추후에 수정이 불가해진다. 
+
+#12.5 cache 바꾸기 귀찮고 간단한 query를 불러오는 거라면 refetchQueries를 사용해도 좋다. 
+
+#12.6 update와 competed의 차이는 completed는 cache를 보내주지 않는다. data만 받음.. update는 cache와 update를 다 받음. 만약 completed에서 cache를 쓰고 싶다면 
+      useApolloClient()를 써야한다. 

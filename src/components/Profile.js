@@ -1,11 +1,11 @@
-import { gql,useQuery } from "@apollo/client";
+import { gql,useMutation,useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import { PHOTO_FRAGMENT } from "../fragments";
 import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import { FatText } from "../components/shared";
 import PageTitle from "../components/PageTitle";
+import useUser from "../hooks/UseUser";
 
 const Header = styled.div`
   display: flex;
@@ -82,7 +82,7 @@ const Icon = styled.span`
 `;
 
 const Button = styled.button`
-  width:85px;height:25px;background:${(props)=>props.theme.accent};border:0;margin-left:20px;color:white;
+  width:85px;height:25px;background:${(props)=>props.theme.accent};border:0;margin-left:20px;color:white;cursor:pointer;
 `;
 
 const SEE_PROFIE_QUERY = gql`
@@ -127,20 +127,60 @@ const UNFOLLOW_USER_MUTATION = gql`
 
 const Profile = () => {
     const {userName} = useParams();
+    const {data:userData} = useUser();
     const {data, loading} = useQuery(SEE_PROFIE_QUERY, {
         variables: {
             userName,
         }
     });
+    const unfollowUserUpdate = (cache, result) => {
+      const {
+        data: {
+          unFollowUser: { ok },
+        },
+      } = result;
+
+      if(!ok){
+        return;
+      }
+      cache.modify({
+        id: `User:${userName}`,
+        fields: {
+          isFollowing(prev){
+            return false;
+          },
+          totalFollowers(prev) {
+            return prev -1;
+          }
+        }
+      })
+    };
+
+    const [unfollowUser] = useMutation(UNFOLLOW_USER_MUTATION, {
+      variables: {
+        userName,
+      },
+      update:unfollowUserUpdate
+      // refetchQueries: [{ query: SEE_PROFIE_QUERY, variables: { userName } }, {query: SEE_PROFIE_QUERY, variables: {userName: userData?.me?.userName}}],
+    });
+    const [followUser] = useMutation(FOLLOW_USER_MUTATION, {
+      variables: {
+        userName,
+      },
+      refetchQueries: [{ query: SEE_PROFIE_QUERY, variables: { userName } }, {query: SEE_PROFIE_QUERY, variables: {userName: userData?.me?.userName}}],
+    });
+
+
+
     const getButton = (seeProfile) => {
       const {isMe, isFollowing} = seeProfile;
       if(isMe){
         return <Button>Edit Profile</Button>
       }
       if(isFollowing) {
-        return <Button>UnFollow</Button>
+        return <Button onClick={unfollowUser}>UnFollow</Button>
       } else {
-        return <Button>Follow</Button>
+        return <Button onClick={followUser}>Follow</Button>
       }
     }
 
