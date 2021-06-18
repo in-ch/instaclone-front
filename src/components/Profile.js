@@ -153,8 +153,20 @@ const Profile = () => {
             return prev -1;
           }
         }
-      })
+      });
+      const {
+        me: {userNameFromUseUser},
+      } = userData;
+      cache.modify({
+        id: `User:${userNameFromUseUser}`,
+        fields: {
+          totalFollowing(prev){
+            return prev -1;
+          }
+        }
+      });
     };
+
 
     const [unfollowUser] = useMutation(UNFOLLOW_USER_MUTATION, {
       variables: {
