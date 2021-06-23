@@ -12,7 +12,7 @@ import routes from "./routes";
 import { HelmetProvider } from "react-helmet-async";
 import Layout from "./components/Layout";
 import Profile from "./components/Profile";
-
+import Gasd from "./screens/Gasd";
 const App = () => {
  
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -36,6 +36,10 @@ const App = () => {
 
                       <Route path={`/users/:userName`}>
                           <Layout><Profile /></Layout>
+                      </Route>
+
+                      <Route path={`/gasd`} exact> 
+                          <Layout><Gasd /></Layout>
                       </Route>
 
                       <Route>
